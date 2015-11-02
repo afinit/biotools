@@ -125,7 +125,7 @@ def GeneFromBLAST(db, sequences, pref, names):
                 continue
 
             for orf in o:
-                if in_range(orf, start, end, res['frame']):
+                if in_range(orf, start, end, 0):
                     orf = orf[:-3]
                     query = translate(orf)
                     options.debug("Aligning %33s v. %33s." % (qname, sname))
@@ -158,10 +158,8 @@ def GeneFromBLAST(db, sequences, pref, names):
         os, oe = sorted((start, end))
         frame = int(frame)
 
-        return (ss < oe and se > os and
-                (se % 3 == oe % 3 or ss % 3 == oe % 3) and
-                ((frame < 0 and seq.step < 0) or
-                 (frame > 0 and seq.step > 0)))
+        return (ss < oe and se > os and (se % 3 == oe % 3 or ss % 3 == oe % 3) ) 
+        
 
     qout = queue.Queue()
     qin = ThreadQueue(target)
